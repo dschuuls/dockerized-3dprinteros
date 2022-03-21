@@ -1,0 +1,18 @@
+version: '2.1'
+
+volumes:
+  3dprinteros:
+
+services:
+  3dprinteros:
+    build: .
+    environment:
+      SANED_ACL: '192.168.0.0/24'
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - 3dprinteros:/root/.3dprinteros/
+    devices:
+      - /dev/bus/usb
+    privileged: true

@@ -1,0 +1,12 @@
+FROM balenalib/%%BALENA_MACHINE_NAME%%-ubuntu-python:3-latest-run
+
+ENV UDEV=on
+
+RUN install_packages python3 python3-aiohttp python3-numpy python3-opencv python3-requests python3-serial python3-usb unzip xterm
+
+ADD https://client-cdn-3dprinteros.azureedge.net/releases/3DPrinterOS_Client_7.4.4.306_beta.zip ./3dprinteros.zip
+RUN unzip 3dprinteros.zip -d /opt/3dprinteros && rm 3dprinteros.zip
+
+RUN sed -i 's/^REMOTE_IP\s=\s".*"/REMOTE_IP = "0.0.0.0"/' /opt/3dprinteros/config.py
+
+CMD [ "python", "/opt/3dprinteros/launcher.py" ]
